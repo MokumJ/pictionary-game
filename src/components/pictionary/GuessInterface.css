@@ -1,0 +1,9 @@
+.guess {
+    width: 400px;
+}
+
+.messages {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}

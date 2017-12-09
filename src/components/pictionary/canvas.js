@@ -3,9 +3,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Toolbar from 'material-ui/Toolbar';
 import Guess from './guess';
 import draw from './draw';
-import GuessInterface from './GuessInterface'
+import GuessInterface from './GuessInterface';
 import './canvas.css';
-
+import { word } from '../../actions/pictionary/word'
 
 class Canvas extends React.Component {
   constructor() {
@@ -28,7 +28,7 @@ class Canvas extends React.Component {
    this.setState({word, gameInProgress: true, isDrawer});
  }
 
- _receiveGuess(guess) {
+  _receiveGuess(guess) {
   let guesses = this.state.guesses.slice();
   guesses.push(guess);
   this.setState({guesses: guesses});
@@ -66,6 +66,7 @@ class Canvas extends React.Component {
          isGameInProgress={this.state.gameInProgress}
          isDrawer={this.state.isDrawer}
        />
+       {this.state.word}
             </div>
             )
           }

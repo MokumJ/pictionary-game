@@ -5,6 +5,8 @@ import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
 import '../components/pictionary/canvas'
+
+
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
   pairs: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -25,12 +27,8 @@ class Game extends PureComponent {
       createdAt: PropTypes.string.isRequired,
       started: PropTypes.bool,
       turn: PropTypes.number.isRequired,
-      cards: PropTypes.arrayOf(PropTypes.shape({
-        symbol: PropTypes.string,
-        _id: PropTypes.string,
-        won: PropTypes.bool,
-        visible: PropTypes.bool
-      }))
+      word: PropTypes.string.isRequired,
+
     }),
     currentPlayer: playerShape,
     isPlayer: PropTypes.bool,
@@ -67,11 +65,11 @@ class Game extends PureComponent {
       <div className="Game">
         <h1>Game!</h1>
         <p>{title}</p>
-
+          <p>{game.word}</p>
         <canvas />
+        
 
 
-      
 
         <JoinGameDialog gameId={game._id} />
       </div>

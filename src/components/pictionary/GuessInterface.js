@@ -1,7 +1,7 @@
 import React from 'react';
 import Guess from './guess';
 import GameStatusControls from './GameStatusControls';
-
+import './GuessInterface.css'
 export default class GuessInterface extends React.Component {
   constructor() {
     super();

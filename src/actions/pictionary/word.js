@@ -6,18 +6,20 @@ import {
   LOAD_SUCCESS
 } from '../loading'
 
+export const ADD_WORD = 'ADD_WORD'
+
 const api = new API()
 
-export default (guess) => {
-  return (dispatch) => {
+export const word = (game) => {
+  return dispatch => {
     dispatch({ type: APP_LOADING })
 
-    api.patch(`/games/${game._id}`, { draw, type, currentPlayer })
-      .then(() => {
-        console.log(...game, index, type, currentPlayer)
+    api.patch(`/games/${game._id}`, game )
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-      })
+
+  })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({
@@ -25,5 +27,5 @@ export default (guess) => {
           payload: error.message
         })
       })
-  }
+}
 }
