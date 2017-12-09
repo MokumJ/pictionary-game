@@ -70,8 +70,8 @@ class Game extends PureComponent {
 
         <canvas />
 
-        <h2>Debug Props</h2>
-        <pre>{JSON.stringify(this.props, true, 2)}</pre>
+
+      
 
         <JoinGameDialog gameId={game._id} />
       </div>
