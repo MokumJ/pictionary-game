@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
-import '../components/pictionary/canvas'
-
-
+import Canvas from '../components/pictionary/canvas'
+import Guess from '../components/pictionary/guess'
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
   pairs: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -35,7 +34,8 @@ class Game extends PureComponent {
     currentPlayer: playerShape,
     isPlayer: PropTypes.bool,
     isJoinable: PropTypes.bool,
-    hasTurn: PropTypes.bool
+    hasTurn: PropTypes.bool,
+    isDrawer: PropTypes.bool.isRequired,
   }
 
 
@@ -54,6 +54,11 @@ class Game extends PureComponent {
       this.props.fetchPlayers(game)
     }
   }
+
+  onDrawRequest() {
+     this.setState({isDrawer: true});
+   }
+
 
   handleKeyUp(event, game) {
     this.state = {
@@ -79,29 +84,28 @@ class Game extends PureComponent {
       .filter(n => !!n)
       .join(' vs ')
 
+
     return (
       <div className="Game">
         <h1>Game!</h1>
         <p>{title}</p>
+
+        <div className="control">
+          <button onClick={this.props.onDrawRequest}>I want to draw!</button>
+        </div>
+
           <p>{  "Draw a " + game.word}</p>
 
 
-        <div className="messages">
-            Make a guess: <input className="guess"
-            onKeyUp={this.handleKeyUp.bind(game)}
-            type="text"
-            placeholder="Type your guess here and press enter"
-          />
+          <Guess />
+
+
+          <JoinGameDialog gameId={game._id} />
         </div>
-
-
-        <JoinGameDialog gameId={game._id} />
-      </div>
     )
   }
 }
-
-const mapStateToProps = ({ currentUser, games }, { match }) => {
+  const mapStateToProps = ({ currentUser, games, guess }, { match }) => {
   const game = games.filter((g) => (g._id === match.params.gameId))[0]
   const currentPlayer = game && game.players.filter((p) => (p.userId === currentUser._id))[0]
 
@@ -117,5 +121,5 @@ const mapStateToProps = ({ currentUser, games }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
-  fetchPlayers
+  fetchPlayers,
 })(Game)

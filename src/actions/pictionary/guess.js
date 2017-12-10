@@ -6,11 +6,11 @@ import {
   LOAD_SUCCESS
 } from '../loading'
 
-export const ADD_WORD = 'ADD_WORD'
+export const GUESS = 'GUESS'
 
 const api = new API()
 
-export const word = (game) => {
+export const guess = (game) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 

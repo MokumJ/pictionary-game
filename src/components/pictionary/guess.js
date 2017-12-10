@@ -1,35 +1,30 @@
-// import React from 'react';
+import React from 'react'
+import { connect } from 'react-redux'
+import { guess } from '../../actions/pictionary/guess'
+import PropTypes from 'prop-types'
 
-// export default class Guess extends React.Component {
-//  constructor() {
-  //  super();
-//    this.state = {
-      // guess: ''
-  //  };
-  // }
+  let Guess = ({dispatch}) => {
+  let input
 
-  // handleKeyUp(event) {
-  //  if (event.key === 'Enter') {
-      // game.submitGuess(game.guess);
-      // event.target.value = "";
-      // game.setState({guess: ''});
-  //  } else {
-      // game.setState({
-    //    guess: event.target.value
-      // });
-  //  }
-  // }
+  return (
+  <div className="guessing">
+    <form onSubmit={e => {
+    e.preventDefault()
+    if (!input.value.trim()){
+      return
+    }
+    dispatch(guess(input.value))
+    input.value = ''   }}>
+    <input ref={node => { input = node  }}/>
+      <button className="guess" type="submit">
+        Guess
+      </button>
 
-  // render() {
-    //return (
-      // <div className="messages">
-          // Make a guess: <input className="guess"
-          // onKeyUp={game.handleKeyUp.bind(game)}
-          // type="text"
-          // placeholder="Type your guess here and press enter"
-        //>
-      // </div>
-  //  );
-  // }
+    </form>
+    </div>
+  )
+}
 
-//}
+const mapStateToProps = ({ guess }) => ({ guess})
+
+export default connect(mapStateToProps)(Guess)
