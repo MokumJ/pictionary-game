@@ -28,6 +28,8 @@ class Game extends PureComponent {
       started: PropTypes.bool,
       turn: PropTypes.number.isRequired,
       word: PropTypes.string.isRequired,
+      guess: '',
+      isDrawer: PropTypes.bool.isRequired,
 
     }),
     currentPlayer: playerShape,
@@ -35,6 +37,7 @@ class Game extends PureComponent {
     isJoinable: PropTypes.bool,
     hasTurn: PropTypes.bool
   }
+
 
   componentWillMount() {
     const { game, fetchOneGame, subscribeToWebsocket } = this.props
@@ -52,6 +55,21 @@ class Game extends PureComponent {
     }
   }
 
+  handleKeyUp(event, game) {
+    this.state = {
+     guess: ''
+   };
+    if (event.key === 'Enter') {
+      this.props.submitGuess(this.state.guess)
+      event.target.value = "";
+      this.setState({guess: ''})
+    } else {
+      this.setState({
+        guess: event.target.value
+      });
+    }
+  }
+
   render() {
     const { game } = this.props
 
@@ -65,10 +83,16 @@ class Game extends PureComponent {
       <div className="Game">
         <h1>Game!</h1>
         <p>{title}</p>
-          <p>{game.word}</p>
-        <canvas />
-        
+          <p>{  "Draw a " + game.word}</p>
 
+
+        <div className="messages">
+            Make a guess: <input className="guess"
+            onKeyUp={this.handleKeyUp.bind(game)}
+            type="text"
+            placeholder="Type your guess here and press enter"
+          />
+        </div>
 
 
         <JoinGameDialog gameId={game._id} />
