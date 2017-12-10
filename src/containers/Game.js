@@ -96,7 +96,7 @@ class Game extends PureComponent {
 
           <p>{  "Draw a " + game.word}</p>
 
-
+          <Canvas />
           <Guess />
 
 

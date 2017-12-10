@@ -58,15 +58,7 @@ class Canvas extends React.Component {
 
           </Toolbar>
           </div>
-          <GuessInterface
-         onDrawRequest={this.handleDrawRequest.bind(this)}
-         onGuessSubmit={this.handleGuessSubmit.bind(this)}
-         word={this.state.word}
-         guesses={this.state.guesses}
-         isGameInProgress={this.state.gameInProgress}
-         isDrawer={this.state.isDrawer}
-       />
-       {this.state.word}
+        
             </div>
             )
           }
