@@ -1,11 +1,11 @@
 import { turn } from '../actions/pictionary/turn';
 
-function reducer(state = { hasTurn: false }, action) {
+function changeTurn(state = { hasTurn: false}, action) {
   switch(action.type) {
     case turn:
-      return { hasTurn: true, turn }
+      return { hasTurn: true, action}
     default:
       return state
   }
 }
-export default turn;
+export default changeTurn;

@@ -10,7 +10,8 @@ import Guess from '../components/pictionary/guess'
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
   pairs: PropTypes.arrayOf(PropTypes.string).isRequired,
-  name: PropTypes.string
+  name: PropTypes.string,
+  hasTurn: PropTypes.bool,
 })
 
 class Game extends PureComponent {
@@ -57,7 +58,7 @@ class Game extends PureComponent {
 
   onDrawRequest = () => {
     const { turn, game } = this.props
-    turn()
+    turn(game)
    }
    //
    // joinGame = () => {
