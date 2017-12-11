@@ -15,34 +15,33 @@ class Canvas extends React.Component {
       word: '',
       guesses: [],
       gameInProgress: false,
-      isDrawer: false,
+      hasTurn: false,
     };
   }
-
 
   componentDidMount() {
     this.setState({canvas: draw()});
   }
 
-  _beginGame(word, isDrawer) {
-   this.setState({word, gameInProgress: true, isDrawer});
+  _beginGame(word, hasTurn) {
+   this.setState({word, gameInProgress: true, hasTurn});
  }
 
-  _receiveGuess(guess) {
-  let guesses = this.state.guesses.slice();
-  guesses.push(guess);
-  this.setState({guesses: guesses});
-  }
-    handleGuessSubmit(guess) {
-  console.log("New guess submitted: " + guess);
-  console.log("Sending guess to server");
-
-
-  let guesses = this.state.guesses.slice();
-  guesses.push(guess);
-  this.setState({guesses: guesses});
-
-  }
+  // _receiveGuess(guess) {
+  // let guesses = this.state.guesses.slice();
+  // guesses.push(guess);
+  // this.setState({guesses: guesses});
+  // }
+  //   handleGuessSubmit(guess) {
+  // console.log("New guess submitted: " + guess);
+  // console.log("Sending guess to server");
+  //
+  //
+  // let guesses = this.state.guesses.slice();
+  // guesses.push(guess);
+  // this.setState({guesses: guesses});
+  //
+  // }
   render() {
     return (
       <div>
@@ -58,7 +57,7 @@ class Canvas extends React.Component {
 
           </Toolbar>
           </div>
-        
+
             </div>
             )
           }

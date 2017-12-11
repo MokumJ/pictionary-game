@@ -8,7 +8,7 @@ export default class GuessInterface extends React.Component {
   }
 
   render() {
-    let isDrawer = this.props.isDrawer;
+    let hasTurn = this.props.hasTurn;
     let isGameInProgress = this.props.isGameInProgress;
     return (
       <div>
@@ -20,7 +20,7 @@ export default class GuessInterface extends React.Component {
         <div className="messages">
           {this.props.word ? "Draw a " + this.props.word : null}
         </div>
-        { isGameInProgress && !isDrawer &&
+        { isGameInProgress && !hasTurn &&
           <Guess
             submitGuess={this.props.onGuessSubmit}
           />

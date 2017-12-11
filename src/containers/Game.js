@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
+import  {turn}  from '../actions/pictionary/turn'
 import JoinGameDialog from '../components/games/JoinGameDialog'
 import Canvas from '../components/pictionary/canvas'
 import Guess from '../components/pictionary/guess'
@@ -28,14 +29,13 @@ class Game extends PureComponent {
       turn: PropTypes.number.isRequired,
       word: PropTypes.string.isRequired,
       guess: '',
-      isDrawer: PropTypes.bool.isRequired,
+      hasTurn: PropTypes.bool.isRequired,
 
     }),
     currentPlayer: playerShape,
     isPlayer: PropTypes.bool,
     isJoinable: PropTypes.bool,
     hasTurn: PropTypes.bool,
-    isDrawer: PropTypes.bool.isRequired,
   }
 
 
@@ -55,9 +55,15 @@ class Game extends PureComponent {
     }
   }
 
-  onDrawRequest() {
-     this.setState({isDrawer: true});
+  onDrawRequest = () => {
+    const { turn, game } = this.props
+    turn()
    }
+   //
+   // joinGame = () => {
+   //   const { joinGame, game } = this.props
+   //   joinGame(game)
+   // }
 
 
   handleKeyUp(event, game) {
@@ -79,7 +85,6 @@ class Game extends PureComponent {
     const { game } = this.props
 
     if (!game) return null
-
     const title = game.players.map(p => (p.name || null))
       .filter(n => !!n)
       .join(' vs ')
@@ -91,17 +96,15 @@ class Game extends PureComponent {
         <p>{title}</p>
 
         <div className="control">
-          <button onClick={this.props.onDrawRequest}>I want to draw!</button>
+          <button onClick={this.onDrawRequest}>I want to draw!</button>
         </div>
 
-          <p>{  "Draw a " + game.word}</p>
+        <Canvas />
 
-          <Canvas />
-          <Guess />
+        { game.hasTurn === true ?   <p>{  "Draw a " + game.word}</p>  : <Guess /> }
 
-
-          <JoinGameDialog gameId={game._id} />
-        </div>
+        <JoinGameDialog gameId={game._id} />
+      </div>
     )
   }
 }
@@ -113,7 +116,7 @@ class Game extends PureComponent {
     currentPlayer,
     game,
     isPlayer: !!currentPlayer,
-    hasTurn: currentPlayer && currentPlayer._id === currentUser._id,
+    // hasTurn: currentPlayer && currentPlayer._id === currentUser._id,
     isJoinable: game && !currentPlayer && game.players.length < 2
   }
 }
@@ -122,4 +125,5 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
   fetchPlayers,
+  turn,
 })(Game)
